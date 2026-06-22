@@ -81,10 +81,17 @@ def evaluate(variable):
         out = variable
     return out
 
+def getsize_legacy(font, i):
+    left, top, right, bottom = font.getbbox(i)
+    width = right - left
+    height = bottom - top
+    return (width, height)
+
+
 def getsize(font, content):
     lines = content.split(r"\n")
-    height = sum([font.getsize(i)[1] for i in lines])
-    return (font.getsize(content.replace(r"\n","\n"))[0],round(height*1.2))
+    height = sum([getsize_legacy(font, i)[1] for i in lines])
+    return (getsize_legacy(font, content.replace(r"\n","\n"))[0],round(height*1.6**(1+content.count("\n"))))
 
 def inverter(image, pos):
     mask = Image.new("L", image.size)
@@ -467,8 +474,8 @@ class GUI(Tk):
         draw.multiline_text(text=content.replace(r"\n","\n"), xy=(0,0), fill=(0,0,0), font=font)
         overlay = overlay.crop(overlay.getbbox())
         overlay = overlay.resize((abs(self.xy2[0]-self.xy1[0]),abs(self.xy2[1]-self.xy1[1])), Image.BICUBIC)
-        self.original.paste(overlay, self.xy1, overlay)
         self.hist(self.original)
+        self.original.paste(overlay, self.xy1, overlay)
         self.focus+=1
         self.image = self.original.copy()
         #self.tkimage = ImageTk.PhotoImage(self.image)
@@ -486,8 +493,8 @@ class GUI(Tk):
         draw.multiline_text(text=content.replace(r"\n","\n"), xy=(10,10), fill=color, stroke_width=sw, stroke_fill=sf, font=font)
         overlay = overlay.crop(overlay.getbbox())
         overlay = overlay.resize((abs(self.xy2[0]-self.xy1[0]),abs(self.xy2[1]-self.xy1[1])), Image.BICUBIC)
-        self.original.paste(overlay, self.xy1, overlay)
         self.hist(self.original)
+        self.original.paste(overlay, self.xy1, overlay)
         self.focus+=1
         self.image = self.original.copy()
         #self.tkimage = ImageTk.PhotoImage(self.image)
