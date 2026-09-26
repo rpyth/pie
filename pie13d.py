@@ -4,6 +4,7 @@ from tkinter import Label as Lab
 from tkinter.scrolledtext import ScrolledText
 from tkinter.filedialog import askopenfilename, asksaveasfile
 from tkinter import ttk
+import sv_ttk
 from PIL import Image, ImageTk, ImageDraw, ImageFont, ImageOps, ImageGrab, ImageEnhance
 from io import BytesIO
 import win32clipboard
@@ -141,8 +142,9 @@ class GUI(Tk):
         self.selmode = False
         self.scaling = 1
         self.image = self.original = Image.new("RGB", (300,200), (255,255,255))
-        self.tk.call("source", "sun-valley.tcl")
-        self.tk.call("set_theme", "light")
+        #self.tk.call("source", "sun-valley.tcl")
+        sv_ttk.set_theme("light")
+        #self.tk.call("set_theme", "light")
         self.model = None#tf.keras.models.load_model("kfmodel2")
         self.is_dark = False
         
@@ -266,10 +268,10 @@ class GUI(Tk):
     def theme(self):
         self.is_dark = not self.is_dark
         if self.is_dark:
-            self.tk.call("set_theme", "dark")
+            sv_ttk.set_theme("dark") #self.tk.call("set_theme", "dark")
             self.label.config(bg = "#222222")
         else:
-            self.tk.call("set_theme", "light")
+            sv_ttk.set_theme("light") #self.tk.call("set_theme", "light")
             self.label.config(bg = "#ffffff")
             self.menu.config(bg="#E7E7E7")
             self.setmenu.config(bg="#E7E7E7")
