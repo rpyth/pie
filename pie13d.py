@@ -809,7 +809,7 @@ class FontDemo(Toplevel):
         self.darkmode = darkmode
         self.menuvar = StringVar()
         self.menuvar.set(get_all_fonts()[0])
-        self.menuvar.trace("w", lambda name, index, mode, sv=self.menuvar: self.callback(sv))
+        self.menuvar.trace_add("write", lambda name, index, mode, sv=self.menuvar: self.callback(sv))
         self.menu = ttk.Combobox(self, textvariable=self.menuvar, values=get_all_fonts())
         self.label = Label(self)
 
